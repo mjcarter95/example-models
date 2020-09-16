@@ -1,0 +1,1 @@
+A CmdStan compatible version of Imperial College London's model for estimating deaths and cases for COVID19. This version contains a subset of the data for faster sampling times. The RStan version of the model can be found at: https://github.com/s-mishra/bench-marking-samplers-covid.
