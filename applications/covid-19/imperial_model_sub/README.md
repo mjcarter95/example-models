@@ -1,1 +1,2 @@
 A CmdStan compatible version of Imperial College London's model for estimating deaths and cases for COVID19. This version contains a subset of the data for faster sampling times. The RStan version of the model can be found at: https://github.com/s-mishra/bench-marking-samplers-covid.
+The file europe_summary.csv contains the stansummary output from 40000 samples generated from 4 chains using the standard NUTS algorithm in stan.
