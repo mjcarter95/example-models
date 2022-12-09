@@ -1,0 +1,1 @@
+`convert_rdump.R` converts the .data.R file associated with a given model into a JSON representation. The initial JSON files output integer values as single element lists, e.g. {"x": [10]}; run `format_json.py` to ensure the JSON files are in the correct format (or correct by hand).
