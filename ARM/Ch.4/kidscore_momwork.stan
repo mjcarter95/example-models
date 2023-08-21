@@ -2,6 +2,7 @@ data {
   int<lower=0> N;
   vector[N] kid_score;
   int mom_work[N];
+  real<lower=0, upper=1> phi;
 }
 transformed data {
   vector[N] work2;
@@ -18,6 +19,8 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  kid_score ~ normal(beta[1] + beta[2] * work2 + beta[3] * work3
+  #kid_score ~ normal(beta[1] + beta[2] * work2 + beta[3] * work3
+  #                   + beta[4] * work4, sigma);
+  target+= phi * normal_lpdf(kid_score |beta[1] + beta[2] * work2 + beta[3] * work3
                      + beta[4] * work4, sigma);
 }

@@ -5,6 +5,7 @@ data {
   vector[N] u;
   vector[N] x;
   vector[N] y;
+  real<lower=0, upper=1> phi;
 }
 parameters {
   vector[2] beta;
@@ -24,10 +25,20 @@ transformed parameters {
 }
 model {
   mu_b ~ normal(0, 1);
+  target += phi * normal_lpdf(mu_b| 0, 1);
+
   eta ~ normal(0, 1);
+  target += phi * normal_lpdf(eta | 0, 1);
+
   beta ~ normal(0, 100);
+  target += phi * normal_lpdf(beta | 0, 1);
+
   sigma ~ cauchy(0, 2.5);
+  target += cauchy_lpdf(sigma | 0, 2.5);
+
   sigma_b ~ cauchy(0, 2.5);
+  target += cauchy_lpdf(sigma_b | 0, 2.5);
 
   y ~ normal(y_hat, sigma);
+  target += phi * normal_lpdf(y | y_hat, sigma);
 }

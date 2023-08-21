@@ -12,13 +12,20 @@ data {
   vector[N] white;
   vector[N] workhrs_top;
   vector[N] workmos;
+  real<lower=0, upper=1> phi;
 }
 parameters {
   vector[12] beta;
   real<lower=0> sigma;
 } 
 model {
-  earnings ~ normal(beta[1] + beta[2] * interest + beta[3] * male 
+  #earnings ~ normal(beta[1] + beta[2] * interest + beta[3] * male 
+  #                  + beta[4] * over65 + beta[5] * white
+  #                  + beta[6] * immig + beta[7] * educ_r + beta[8] * workmos 
+  #                  + beta[9] * workhrs_top + beta[10] * any_ssi 
+  #                  + beta[11] * any_welfare + beta[12] * any_charity,sigma);
+
+  target+= phi * normal_lpdf(earnings |beta[1] + beta[2] * interest + beta[3] * male 
                     + beta[4] * over65 + beta[5] * white
                     + beta[6] * immig + beta[7] * educ_r + beta[8] * workmos 
                     + beta[9] * workhrs_top + beta[10] * any_ssi 

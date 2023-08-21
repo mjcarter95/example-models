@@ -9,13 +9,20 @@ data {
   vector[N] male;
   vector[N] over65;
   vector[N] white;
+  real<lower=0, upper=1> phi;
 }
 parameters {
   vector[9] beta;
 } 
 model {
-  earnings ~ bernoulli_logit(beta[1] + beta[2] * male + beta[3] * over65 
+  #earnings ~ bernoulli_logit(beta[1] + beta[2] * male + beta[3] * over65 
+  #                           + beta[4] * white + beta[5] * immig 
+  #                           + beta[6] * educ_r + beta[7] * any_ssi 
+  #                           + beta[8] * any_welfare + beta[9] * any_charity);
+
+  target+= phi * bernoulli_logit_lpmf(earnings |beta[1] + beta[2] * male + beta[3] * over65 
                              + beta[4] * white + beta[5] * immig 
                              + beta[6] * educ_r + beta[7] * any_ssi 
                              + beta[8] * any_welfare + beta[9] * any_charity);
+
 }
