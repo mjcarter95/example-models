@@ -6,6 +6,7 @@ data {
   vector[N] canopy_height;
   vector[N] total_height;
   vector[N] group;
+  real<lower=0, upper=1> phi;
 }
 transformed data {
   vector[N] log_weight;
@@ -24,7 +25,12 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume
+  #log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume
+  #                    + beta[3] * log_canopy_area + beta[4] * log_canopy_shape
+  #                    + beta[5] * log_total_height + beta[6] * group,
+  #                    sigma);
+  
+  target+= phi * normal_lpdf(log_weight |beta[1] + beta[2] * log_canopy_volume
                       + beta[3] * log_canopy_area + beta[4] * log_canopy_shape
                       + beta[5] * log_total_height + beta[6] * group,
                       sigma);

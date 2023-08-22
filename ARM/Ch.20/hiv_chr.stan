@@ -4,7 +4,6 @@ data {
   int<lower=1,upper=J> person[N];
   vector[N] time;
   vector[N] y;
-  real<lower=0, upper=1> phi; //tempering constant
 } 
 parameters {
   vector[J] eta1;
@@ -27,20 +26,9 @@ transformed parameters {
     y_hat[i] = a1[person[i]] + a2[person[i]] * time[i];
 } 
 model {
-  //mu_a1 ~ normal(0, 1);
-  //mu_a2 ~ normal(0, 1);
-  //eta1 ~ normal (0,1);
-  //eta2 ~ normal (0,1);
-
-  // Rewrite priors
-  target += normal_lpdf(mu_a1 | 0, 1);
-  target += normal_lpdf(mu_a2 | 0, 1);
-  target += normal_lpdf(eta1 | 0, 1);
-  target += normal_lpdf(eta2 | 0, 1);
-
-  // y ~ normal(y_hat, sigma_y);
-
-  // rewrite log likehood
-  target += phi * normal_lpdf(y | y_hat, sigma_y);
-
+  mu_a1 ~ normal(0, 1);
+  mu_a2 ~ normal(0, 1);
+  eta1 ~ normal (0,1);
+  eta2 ~ normal (0,1);
+  y ~ normal(y_hat, sigma_y);
 }

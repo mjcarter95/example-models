@@ -7,6 +7,7 @@ data {
   vector[N] total_height;
   vector[N] density;
   vector[N] group;
+  real<lower=0, upper=1> phi;
 }
 transformed data {           // log transformations
   vector[N] log_weight;
@@ -26,8 +27,12 @@ parameters {
   vector[7] beta;
   real<lower=0> sigma;
 }
-model {
-  log_weight ~ normal(beta[1] + beta[2] * log_diam1 + beta[3] * log_diam2
+model {  
+  #log_weight ~ normal(beta[1] + beta[2] * log_diam1 + beta[3] * log_diam2
+  #                + beta[4] * log_canopy_height + beta[5] * log_total_height
+  #                + beta[6] * log_density + beta[7] * group,
+  #                sigma);
+  target+= phi * normal_lpdf(log_weight |beta[1] + beta[2] * log_diam1 + beta[3] * log_diam2
                   + beta[4] * log_canopy_height + beta[5] * log_total_height
                   + beta[6] * log_density + beta[7] * group,
                   sigma);
