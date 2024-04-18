@@ -1,6 +1,6 @@
 data {
   int<lower=0> N;
-  int<lower=0,upper=1> y[N];
+  array[N] int<lower=0, upper=1> y;
   vector[N] x;
 }
 parameters {
@@ -9,3 +9,4 @@ parameters {
 model {
   y ~ bernoulli_logit(beta[1] + beta[2] * x);
 }
+

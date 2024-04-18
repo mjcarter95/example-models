@@ -3,9 +3,10 @@ data {
   vector<lower=0, upper=200>[N] kid_score;
   vector<lower=0, upper=200>[N] mom_iq;
   vector<lower=0, upper=1>[N] mom_hs;
-  real<lower=0, upper=1> phi; }
-
-transformed data {           // interaction
+  real<lower=0, upper=1> phi;
+}
+transformed data {
+  // interaction
   vector[N] inter;
   inter = mom_hs .* mom_iq;
 }
@@ -14,10 +15,12 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  #sigma ~ cauchy(0, 2.5);
+  //sigma ~ cauchy(0, 2.5);
   target += cauchy_lpdf(sigma | 0, 2.5);
-  #kid_score ~ normal(beta[1] + beta[2] * mom_hs + beta[3] * mom_iq
-   #                  + beta[4] * inter, sigma);
-  target += phi * normal_lpdf(kid_score | beta[1] + beta[2] * mom_hs + beta[3] * mom_iq
-                     + beta[4] * inter, sigma);
+  //kid_score ~ normal(beta[1] + beta[2] * mom_hs + beta[3] * mom_iq
+  //                  + beta[4] * inter, sigma);
+  target += phi
+            * normal_lpdf(kid_score | beta[1] + beta[2] * mom_hs
+                                      + beta[3] * mom_iq + beta[4] * inter, sigma);
 }
+

@@ -10,3 +10,4 @@ parameters {
 model {
   post_test ~ normal(beta[1] + beta[2] * treatment, sigma);
 }
+

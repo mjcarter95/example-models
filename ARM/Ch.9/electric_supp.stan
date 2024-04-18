@@ -11,3 +11,4 @@ parameters {
 model {
   post_test ~ normal(beta[1] + beta[2] * supp + beta[3] * pre_test, sigma);
 }
+

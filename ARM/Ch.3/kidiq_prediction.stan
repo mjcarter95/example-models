@@ -3,7 +3,7 @@ data {
   vector<lower=0, upper=200>[N] kid_score;
   vector<lower=0, upper=200>[N] mom_iq;
   vector<lower=0, upper=1>[N] mom_hs;
-  real<lower=0, upper=1> mom_hs_new;           // for prediction
+  real<lower=0, upper=1> mom_hs_new; // for prediction
   real<lower=0, upper=200> mom_iq_new;
 }
 parameters {
@@ -14,8 +14,10 @@ model {
   sigma ~ cauchy(0, 2.5);
   kid_score ~ normal(beta[1] + beta[2] * mom_hs + beta[3] * mom_iq, sigma);
 }
-generated quantities {       // prediction
+generated quantities {
+  // prediction
   real kid_score_pred;
   kid_score_pred = normal_rng(beta[1] + beta[2] * mom_hs_new
-                               + beta[3] * mom_iq_new, sigma);
+                              + beta[3] * mom_iq_new, sigma);
 }
+

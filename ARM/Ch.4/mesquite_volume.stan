@@ -9,7 +9,7 @@ data {
 transformed data {
   vector[N] log_weight;
   vector[N] log_canopy_volume;
-  log_weight        = log(weight);
+  log_weight = log(weight);
   log_canopy_volume = log(diam1 .* diam2 .* canopy_height);
 }
 parameters {
@@ -17,6 +17,8 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  #log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume, sigma);
-  target+= phi * normal_lpdf(log_weight |beta[1] + beta[2] * log_canopy_volume, sigma);
+  //log_weight ~ normal(beta[1] + beta[2] * log_canopy_volume, sigma);
+  target += phi
+            * normal_lpdf(log_weight | beta[1] + beta[2] * log_canopy_volume, sigma);
 }
+

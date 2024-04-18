@@ -11,13 +11,15 @@
 
 transformed data {
   cov_matrix[2] S;
-
-  for (i in 1:2)
-    for (j in 1:2)
-      S[i,j] <- 0.0;
-
-  S[1,1] <- 2.0;
-  S[2,2] <- 0.5;
+  
+  for (i in 1 : 2) {
+    for (j in 1 : 2) {
+      S[i, j] = 0.0;
+    }
+  }
+  
+  S[1, 1] = 2.0;
+  S[2, 2] = 0.5;
 }
 parameters {
   real x;
@@ -27,15 +29,15 @@ parameters {
 transformed parameters {
   real rho;
   real cov;
-  matrix[2,2] W;
-
-  rho <- tanh(x);
-  cov <- rho * sd1 * sd2;
-
-  W[1,1] <- sd1 * sd1;
-  W[2,2] <- sd2 * sd2;
-  W[1,2] <- cov;
-  W[2,1] <- cov;
+  matrix[2, 2] W;
+  
+  rho = tanh(x);
+  cov = rho * sd1 * sd2;
+  
+  W[1, 1] = sd1 * sd1;
+  W[2, 2] = sd2 * sd2;
+  W[1, 2] = cov;
+  W[2, 1] = cov;
 }
 model {
   // apply log Jacobian determinant of transform:
@@ -47,10 +49,9 @@ model {
   //     | 2 * sd1                     0                0                     |
   //   = | 0                         2 * sd2            0                     |
   //     | rho * sd2               rho * sd1        sd1 * sd2 * (1 - rho^2)   |
-
-  increment_log_prob(log(2.0 * sd1) 
-                     + log(2.0 * sd2) 
-                     + log(sd1 * sd2 * (1.0 - rho * rho)));
+  
+  target += log(2.0 * sd1) + log(2.0 * sd2)
+            + log(sd1 * sd2 * (1.0 - rho * rho));
   
   W ~ wishart(4, S);
 }

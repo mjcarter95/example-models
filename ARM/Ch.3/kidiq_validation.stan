@@ -12,3 +12,4 @@ model {
   sigma ~ cauchy(0, 2.5);
   ppvt ~ normal(beta[1] + beta[2] * hs + beta[3] * afqt, sigma);
 }
+

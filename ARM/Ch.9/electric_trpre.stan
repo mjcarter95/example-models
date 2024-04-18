@@ -9,5 +9,7 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  post_test ~ normal(beta[1] + beta[2] * treatment + beta[3] * pre_test, sigma);
+  post_test ~ normal(beta[1] + beta[2] * treatment + beta[3] * pre_test,
+                     sigma);
 }
+

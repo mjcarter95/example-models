@@ -1,7 +1,7 @@
 data {
   int<lower=1> N;
-  int<lower=1> J; # number of counties
-  int<lower=1,upper=J> county[N];
+  int<lower=1> J; // number of counties
+  array[N] int<lower=1, upper=J> county;
   vector[N] x;
   vector[N] y;
 }
@@ -15,11 +15,12 @@ parameters {
 transformed parameters {
   vector[J] a;
   vector[N] y_hat;
-
+  
   a = mu_a + sigma_a * eta;
-
-  for (i in 1:N)
+  
+  for (i in 1 : N) {
     y_hat[i] = beta * x[i] + a[county[i]];
+  }
 }
 model {
   beta ~ normal(0, 1);
@@ -27,6 +28,7 @@ model {
   eta ~ normal(0, 1);
   sigma_a ~ cauchy(0, 2.5);
   sigma_y ~ cauchy(0, 2.5);
-
+  
   y ~ normal(y_hat, sigma_y);
 }
+

@@ -9,8 +9,9 @@ parameters {
   real<lower=0> sigma;
 }
 model {
-  #sigma ~ cauchy(0, 2.5);
+  //sigma ~ cauchy(0, 2.5);
   target += cauchy_lpdf(sigma | 0, 2.5);
-  #y ~ normal(beta[1] + beta[2] * x, sigma);
+  //y ~ normal(beta[1] + beta[2] * x, sigma);
   target += phi * normal_lpdf(y | beta[1] + beta[2] * x, sigma);
 }
+

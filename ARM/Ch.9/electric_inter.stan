@@ -5,7 +5,7 @@ data {
   vector[N] pre_test;
 }
 transformed data {
-  vector[N] inter;           // interaction
+  vector[N] inter; // interaction
   inter = treatment .* pre_test;
 }
 parameters {
@@ -16,3 +16,4 @@ model {
   post_test ~ normal(beta[1] + beta[2] * treatment + beta[3] * pre_test
                      + beta[4] * inter, sigma);
 }
+

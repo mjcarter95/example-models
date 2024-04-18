@@ -1,6 +1,6 @@
 data {
   int<lower=0> N;
-  int<lower=0,upper=1> switched[N];
+  array[N] int<lower=0, upper=1> switched;
   vector[N] dist;
   vector[N] arsenic;
   vector[N] assoc;
@@ -13,14 +13,15 @@ transformed data {
   vector[N] educ4;
   c_dist100 = (dist - mean(dist)) / 100.0;
   c_arsenic = arsenic - mean(arsenic);
-  da_inter  = c_dist100 .* c_arsenic;
-  educ4     = educ / 4.0;
+  da_inter = c_dist100 .* c_arsenic;
+  educ4 = educ / 4.0;
 }
 parameters {
   vector[6] beta;
 }
 model {
-  switched ~ bernoulli_logit(beta[1] + beta[2] * c_dist100 + beta[3] * c_arsenic
-                              + beta[4] * da_inter + beta[5] * assoc 
-                              + beta[6] * educ4);
+  switched ~ bernoulli_logit(beta[1] + beta[2] * c_dist100
+                             + beta[3] * c_arsenic + beta[4] * da_inter
+                             + beta[5] * assoc + beta[6] * educ4);
 }
+
